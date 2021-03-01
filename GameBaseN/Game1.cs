@@ -6,26 +6,30 @@ namespace GameBaseN
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
+            // initialiserar managers som är statics.
+            ImageManager.Initialize(graphics.GraphicsDevice);
+            EntityManager.Initialize();
+            CreationManager.Initialize(graphics.GraphicsDevice);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -35,7 +39,10 @@ namespace GameBaseN
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            EntityManager.Update(gameTime);
+            //CreationManager.Update(gameTime);
+
+
 
             base.Update(gameTime);
         }
@@ -44,7 +51,15 @@ namespace GameBaseN
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+
+
+            spriteBatch.Begin();
+            
+            EntityManager.Draw(gameTime, spriteBatch);
+            
+
+            spriteBatch.End();
+            
 
             base.Draw(gameTime);
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace GameBaseN
 {
@@ -9,18 +10,17 @@ namespace GameBaseN
     {
 
         public TexturePack nextTexturePack;
-        
+        public Texture2D texture2D;
+        public string textureName;
         public int imageNumber;
 
-        public Texture2D texture2D;
-
-
-        public TexturePack(int imageNumber, Texture2D texture2D)
+        
+        public TexturePack(int imageNumber, string textureName, Texture2D texture2D)
         {
             nextTexturePack = null;
             this.imageNumber = imageNumber;
             this.texture2D = texture2D;
-
+            this.textureName = textureName;
         }
     }
 }

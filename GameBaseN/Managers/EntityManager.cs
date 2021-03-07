@@ -34,7 +34,7 @@ namespace GameBaseN
                 else
                 {
                     RemoveEntityWithId(stepEntity.uniqueId);
-                        
+                    
                 }
 
                 stepEntity = stepEntity.nextEntity;
@@ -72,14 +72,9 @@ namespace GameBaseN
                 }
 
                 stepEntity.nextEntity = entityToAdd;
-
+                return;
             }
-            else
-            {
-
                 firstEntity = entityToAdd;
-            
-            }
         }
 
         static public Entity FindEntityWithId(int idToFind)

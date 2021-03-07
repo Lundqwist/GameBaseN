@@ -11,7 +11,7 @@ namespace GameBaseN
 
         static TexturePack firstTexturePack;
 
-        static int counter;
+        static int uniqueTextureId;
 
         static public GraphicsDevice graphicsDevice;
         
@@ -21,41 +21,52 @@ namespace GameBaseN
         {
             firstTexturePack = null;
             graphicsDevice = currentGraphicsDevice;
+            uniqueTextureId = 0;
         }
 
         static public void ClearAllImages()
         {
             
             firstTexturePack = null;
-            System.GC.Collect();
+            GC.Collect();
 
         }
 
-        static public int AddImage(string imagePathAndFileName)
+        static public int AddImage(string imageName, string imagePathAndFileName)
         {
-            counter++;
-
-            TexturePack newImage = new TexturePack(counter, Texture2D.FromStream(graphicsDevice, File.OpenRead(imagePathAndFileName)));
-
             TexturePack stepPack = firstTexturePack;
-
 
             if(firstTexturePack != null)
             {
+                // Find last texturepack
                 while(stepPack.nextTexturePack != null)
                 {
+                    if(stepPack.textureName == imageName)
+                    {
+                        return stepPack.imageNumber;
+                    }
                     stepPack = stepPack.nextTexturePack;
                 }
 
+                TexturePack newImage = new TexturePack(uniqueTextureId, imageName,
+                                        Texture2D.FromStream(graphicsDevice,
+                                        File.OpenRead(imagePathAndFileName)));
+                
+                uniqueTextureId++;
                 stepPack.nextTexturePack = newImage;
 
             }
             else
             {
+                TexturePack newImage = new TexturePack(uniqueTextureId, imageName,
+                                        Texture2D.FromStream(graphicsDevice,
+                                        File.OpenRead(imagePathAndFileName)));
+
+                uniqueTextureId++;
                 firstTexturePack = newImage;
             }
 
-            return counter;
+            return uniqueTextureId;
         }
 
         static public Texture2D GetImageWithId(int imageId)
@@ -76,7 +87,7 @@ namespace GameBaseN
             return null;
         }
 
-
+        
 
     }
 }

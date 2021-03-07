@@ -22,7 +22,10 @@ namespace GameBaseN
             // initialiserar managers som är statics.
             ImageManager.Initialize(graphics.GraphicsDevice);
             EntityManager.Initialize();
-            CreationManager.Initialize(graphics.GraphicsDevice);
+            CreationManager.Initialize();
+
+
+            Tools.Debugging.isDebugging = true;
 
             base.Initialize();
         }
@@ -31,7 +34,9 @@ namespace GameBaseN
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+
+
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -39,8 +44,10 @@ namespace GameBaseN
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            
             EntityManager.Update(gameTime);
-            //CreationManager.Update(gameTime);
+            
+            CreationManager.Update(gameTime);
 
 
 
@@ -56,7 +63,6 @@ namespace GameBaseN
             spriteBatch.Begin();
             
             EntityManager.Draw(gameTime, spriteBatch);
-            
 
             spriteBatch.End();
             
